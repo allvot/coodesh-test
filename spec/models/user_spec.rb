@@ -29,4 +29,15 @@ describe User, type: :model do
     it { is_expected.to be_invalid }
     it("has a role cant be invalid error") { expect(user.errors[:role]).to include("is not included in the list") }
   end
+
+  context "with invalid email" do
+    let(:other_user) { create(:user) }
+
+    subject(:user) { build(:user, email: other_user.email) }
+
+    before { user.valid? }
+
+    it { is_expected.to be_invalid }
+    it("has a email has already been taken error") { expect(user.errors[:email]).to include("has already been taken") }
+  end
 end
