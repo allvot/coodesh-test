@@ -4,7 +4,7 @@ class ApiKeysController < ApplicationController
 
   # GET /api_keys or /api_keys.json
   def index
-    @api_keys = ApiKey.all
+    @api_keys = ApiKey.where(user_id: current_user.id).all
   end
 
   # GET /api_keys/1 or /api_keys/1.json
@@ -61,7 +61,9 @@ class ApiKeysController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_api_key
-      @api_key = ApiKey.find(params.expect(:id))
+      @api_key =
+        ApiKey.where(user_id: current_user.id)
+              .find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.
