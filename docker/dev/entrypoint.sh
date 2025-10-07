@@ -2,11 +2,9 @@
 
 bundle install
 
-# bundle exec rails db:reset
+bundle exec rails db:reset
 
-# rm -f tmp/pids/server.pid
+rm -f tmp/pids/server.pid
 
-# Spinup the application and sidekiq
-# bundle exec rails s -b 0.0.0.0
-
-tail -f /dev/null
+Spinup the application and sidekiq
+bundle exec rails s -b 0.0.0.0
