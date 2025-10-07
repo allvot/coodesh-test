@@ -1,24 +1,38 @@
-# README
+# Coding Challenge Alvaro Alday
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a coding challenge for coodesh
 
-Things you may want to cover:
+## Installation
 
-* Ruby version
+Generate a .env file
 
-* System dependencies
+```bash
+cp .env.sample .env
+```
 
-* Configuration
+or by using docker-compose with the following commands
 
-* Database creation
+```bash
+docker-compose build
+docker-compose up -d
+```
 
-* Database initialization
+After initializsing the docker environment you should have access to a postgres database and a server running in localhost:3000 in your host machine. No need to further change the .env file or .env file
 
-* How to run the test suite
+## Running tests
 
-* Services (job queues, cache servers, search engines, etc.)
+Run the tests from the docker container
 
-* Deployment instructions
+```bash
+docker-compose exec app rspec
+```
 
-* ...
+## Completion and Submission Instructions
+1. Add the link to the repository with your solution to the task on the platform
+2. Check if the Readme is good and make the final commit to your repository
+3. Submit and wait for further instructions. If the test requires a video presentation, it will be possible to record it on the submission screen after adding the repository link. Good luck and success! =)
+
+## Support
+
+For questions about the process, send a message directly to a specialist in the platform chat.
+
