@@ -6,6 +6,10 @@ class User < ApplicationRecord
 
   ROLES = %w[user admin]
 
+  # ASSOCIATIONS
+  # ------------
+  has_many :api_keys, dependent: :destroy
+
   # VALIDATIONS
   # ------------
   validates :name, presence: true

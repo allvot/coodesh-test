@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe User, type: :model do
-  context "with valida attributes" do
+  context "with valid attributes" do
     subject(:user) { build(:user) }
 
     it { is_expected.to be_valid }
@@ -39,5 +39,21 @@ describe User, type: :model do
 
     it { is_expected.to be_invalid }
     it("has a email has already been taken error") { expect(user.errors[:email]).to include("has already been taken") }
+  end
+end
+
+describe User, "#api_keys" do
+  let(:user) { create(:user) }
+  subject(:api_keys) { user.api_keys }
+
+  context "with api keys" do
+    let!(:api_keys) { create_list(:api_key, 3, user: user) }
+
+    it("has many api keys") { expect(api_keys).to all(be_a(ApiKey)) }
+    it("has many api keys") { expect(api_keys.count).to eq(3) }
+  end
+
+  context "without api keys" do
+    it { is_expected.to be_empty }
   end
 end
