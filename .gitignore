@@ -1,0 +1,76 @@
+# Ignore bundler config.
+.bundle
+
+# Ignore all logfiles and tempfiles.
+log/*
+tmp/*
+!log/.keep
+!tmp/.keep
+
+# Ignore pidfiles, but keep the directory.
+tmp/pids/*
+!tmp/pids/
+!tmp/pids/.keep
+
+# Ignore storage (uploaded files in development and any SQLite databases).
+storage/*
+!storage/.keep
+tmp/storage/*
+!tmp/storage/
+!tmp/storage/.keep
+
+# Ignore master key for decrypting credentials and more.
+config/master.key
+config/credentials.yml.enc
+
+# Ignore compiled assets.
+public/assets
+
+# Ignore environment variables.
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore node modules if using Webpacker/Asset Pipeline.
+node_modules/
+
+# Ignore coverage reports.
+coverage/
+
+# Ignore IDE files.
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Ignore OS generated files.
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Ignore database files.
+*.sqlite3
+*.sqlite3-journal
+
+# Ignore yarn files.
+yarn-error.log
+.yarn-integrity
+
+# Ignore byebug command history file.
+.byebug_history
+
+# Ignore Spring files.
+.spring/
+
+# Ignore RSpec files.
+.rspec
+
+# Ignore Docker files (if not needed in repo).
+.dockerignore

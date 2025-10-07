@@ -1,0 +1,38 @@
+volumes:
+  minio_data:
+    driver: local
+  bundle:
+  javascript:
+  db:
+  redis:
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/dev/Dockerfile
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app/
+      - ./docker/dev/entrypoint.sh:/app/docker/dev/entrypoint.sh
+      - bundle:/usr/local/bundle
+      - javascript:/app/vendor/javascript
+    entrypoint: /app/docker/dev/entrypoint.sh
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
