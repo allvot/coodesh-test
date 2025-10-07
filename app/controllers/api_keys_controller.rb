@@ -1,4 +1,5 @@
 class ApiKeysController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_api_key, only: %i[ show edit update destroy ]
 
   # GET /api_keys or /api_keys.json
@@ -25,7 +26,7 @@ class ApiKeysController < ApplicationController
 
     respond_to do |format|
       if @api_key.save
-        format.html { redirect_to @api_key, notice: "Api key was successfully created." }
+        format.html { redirect_to @api_key, notice: "Api key was successfully created. The key is #{@api_key.key}" }
         format.json { render :show, status: :created, location: @api_key }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -65,6 +66,8 @@ class ApiKeysController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def api_key_params
-      params.expect(api_key: [ :name, :key ])
+      params.expect(api_key: [ :name, :key ]).tap do |params|
+        params[:user_id] = current_user.id
+      end
     end
 end
