@@ -24,6 +24,7 @@ class ApiKey < ApplicationRecord
     return unless user_id.present?
 
     payload = {
+      id: id,
       uid: user_id,
       iat: Time.now.to_i,
       jti: SecureRandom.uuid
