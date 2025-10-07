@@ -3,6 +3,7 @@ class Vault < ApplicationRecord
   # ------------
 
   belongs_to :user
+  has_many :documents, dependent: :destroy
 
   # VALIDATIONS
   # ------------

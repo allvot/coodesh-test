@@ -19,3 +19,19 @@ describe Vault do
     it("has a user must exist error") { expect(vault.errors[:user]).to include("must exist") }
   end
 end
+
+describe Vault, "#documents" do
+  let(:vault) { create(:vault) }
+  subject(:documents) { vault.documents }
+
+  context "with documents" do
+    let!(:documents) { create_list(:document, 3, vault: vault) }
+
+    it("has many documents") { expect(documents).to all(be_a(Document)) }
+    it("has many documents") { expect(documents.count).to eq(3) }
+  end
+
+  context "without documents" do
+    it { is_expected.to be_empty }
+  end
+end
