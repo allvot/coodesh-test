@@ -15,7 +15,6 @@ class User < ApplicationRecord
   # VALIDATIONS
   # ------------
 
-  validates :name, presence: true
   validates :role, presence: true, inclusion: { in: ROLES }
 
   ROLES.each do |role|
