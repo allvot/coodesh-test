@@ -14,6 +14,7 @@ RSpec.describe "Api::Vaults", type: :request do
 
       it "returns a successful response" do
         index_request
+        debugger
         expect(response).to be_successful
       end
     end
