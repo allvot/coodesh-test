@@ -69,7 +69,7 @@ class ApiKeysController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def api_key_params
-    params.expect(api_key: %i[name key]).tap do |params|
+    params.expect(api_key: %i[name key permission_level]).tap do |params|
       params[:user_id] = current_user.id
     end
   end

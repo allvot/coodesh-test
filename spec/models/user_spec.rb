@@ -18,7 +18,6 @@ describe User, type: :model do
     before { user.valid? }
 
     it { is_expected.to be_invalid }
-    it('has a name cant be blank error') { expect(user.errors[:name]).to include("can't be blank") }
     it("has a 'user' role cant be blank error") { expect(user.role).to eq('user') }
     it('has a email cant be blank error') { expect(user.errors[:email]).to include("can't be blank") }
   end

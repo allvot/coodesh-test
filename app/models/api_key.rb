@@ -18,12 +18,11 @@ class ApiKey < ApplicationRecord
   # CALLBACKS
   # ---------
 
-  before_save :generate_jwt_key, if: :new_record?
+  before_save :generate_jwt_key
 
   private
 
   def generate_jwt_key
-    return if key.present?
     return unless user_id.present?
 
     payload = {
