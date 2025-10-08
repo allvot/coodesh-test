@@ -17,6 +17,11 @@
   </div>
 
   <div>
+    <%= form.label :permission_level, style: "display: block" %>
+    <%= form.select :permission_level, ApiKey::PERMISSION_LEVELS, selected: api_key.permission_level %>
+  </div>
+
+  <div>
     <%= form.submit %>
   </div>
 <% end %>

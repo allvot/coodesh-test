@@ -17,6 +17,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_07_234916) do
   create_table "api_keys", force: :cascade do |t|
     t.text "key"
     t.string "name"
+    t.string "permission_level", default: "read"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

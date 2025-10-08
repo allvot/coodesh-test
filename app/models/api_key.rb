@@ -1,4 +1,5 @@
 class ApiKey < ApplicationRecord
+  PERMISSION_LEVELS = %w[read write]
   encrypts :key
 
   # ASSOCIATIONS
@@ -11,6 +12,7 @@ class ApiKey < ApplicationRecord
 
   validates :key, presence: true
   validates :name, presence: true
+  validates :permission_level, presence: true, inclusion: { in: PERMISSION_LEVELS }
 
   # CALLBACKS
   # ---------
@@ -32,5 +34,11 @@ class ApiKey < ApplicationRecord
 
     secret = ENV['API_KEY_JWT_SECRET'].presence || Rails.application.secret_key_base
     self.key = JWT.encode(payload, secret, 'HS256')
+  end
+
+  PERMISSION_LEVELS.each do |level|
+    define_method("#{level}?") do
+      self.permission_level == level
+    end
   end
 end
