@@ -49,4 +49,12 @@ class Api::ApiController < ActionController::API
 
     render json: { error: "Unauthorized" }, status: :unauthorized
   end
+
+  def serialize(object)
+    serializer_class.new(object).serializable_hash
+  end
+
+  def serializer_class
+    @serializer_class ||= "#{self.controller_name.singularize.camelize}Serializer".constantize
+  end
 end
