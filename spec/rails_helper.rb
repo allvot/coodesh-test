@@ -10,6 +10,7 @@ require 'rspec/rails'
 require 'factory_bot_rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'vcr'
+require 'devise'
 # require 'action_cable/testing/rspec'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -73,4 +74,12 @@ RSpec.configure do |config|
 
   # Timetraveling
   config.include ActiveSupport::Testing::TimeHelpers
+
+  config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include Devise::Test::ControllerHelpers, type: :controller
+
+  # For system/feature specs (optional):
+  config.include Warden::Test::Helpers
+  config.before(:suite) { Warden.test_mode! }
+  config.after(:each) { Warden.test_reset! }
 end

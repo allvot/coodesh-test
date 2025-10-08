@@ -10,7 +10,8 @@ module Api
 
     def authenticate_api_key!
       authorization = request.headers['Authorization']
-      api_key = authorization.gsub('Bearer ', '')
+      api_key = authorization&.gsub('Bearer ', '')
+      return render json: { error: 'Unauthorized' }, status: :unauthorized if api_key.blank?
 
       key_data = JWT.decode(api_key, ENV['API_KEY_JWT_SECRET'].presence || Rails.application.secret_key_base, true,
                             { algorithm: 'HS256' }).first

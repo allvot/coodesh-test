@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  root to: 'api_keys#index'
   resources :api_keys
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get 'up' => 'rails/health#show', as: :rails_health_check
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
@@ -19,6 +19,12 @@ Rails.application.routes.draw do
   resources :users
 
   namespace :api do
-    resources :vaults
+    resources :vaults do
+      resources :documents do
+        member do
+          get :download
+        end
+      end
+    end
   end
 end

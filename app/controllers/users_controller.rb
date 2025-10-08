@@ -70,4 +70,10 @@ class UsersController < ApplicationController
   def user_params
     params.expect(user: %i[name email role password])
   end
+
+  def validate_admin!
+    return if current_user.admin?
+
+    throw :warden, scope: :user
+  end
 end

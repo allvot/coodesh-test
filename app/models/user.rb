@@ -17,4 +17,10 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :role, presence: true, inclusion: { in: ROLES }
+
+  ROLES.each do |role|
+    define_method("#{role}?") do
+      self.role == role
+    end
+  end
 end
