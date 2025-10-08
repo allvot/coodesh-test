@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show edit update destroy]
   before_action :authenticate_user!
+  before_action :set_user, only: %i[show edit update destroy]
   before_action :validate_admin!, only: %i[index create update destroy]
 
   # GET /users or /users.json
@@ -72,7 +72,7 @@ class UsersController < ApplicationController
   end
 
   def validate_admin!
-    return if current_user.admin?
+    return if current_user&.admin?
 
     throw :warden, scope: :user
   end
