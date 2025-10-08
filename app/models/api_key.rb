@@ -10,14 +10,13 @@ class ApiKey < ApplicationRecord
   # VALIDATIONS
   # ------------
 
-  validates :key, presence: true
   validates :name, presence: true
   validates :permission_level, presence: true, inclusion: { in: PERMISSION_LEVELS }
 
   # CALLBACKS
   # ---------
 
-  before_validation :generate_jwt_key, on: :create
+  before_save :generate_jwt_key, if: :new_record?
 
   private
 
@@ -26,10 +25,10 @@ class ApiKey < ApplicationRecord
     return unless user_id.present?
 
     payload = {
-      id: id,
       uid: user_id,
       iat: Time.now.to_i,
-      jti: SecureRandom.uuid
+      jti: SecureRandom.uuid,
+      permission_level: permission_level
     }
 
     secret = ENV['API_KEY_JWT_SECRET'].presence || Rails.application.secret_key_base

@@ -16,7 +16,6 @@ describe ApiKey do
     before { api_key.valid? }
 
     it { is_expected.to be_invalid }
-    it("has a key cant be blank error") { expect(api_key.errors[:key]).to include("can't be blank") }
     it("has a name cant be blank error") { expect(api_key.errors[:name]).to include("can't be blank") }
     it("has a user must exist error") { expect(api_key.errors[:user]).to include("must exist") }
   end

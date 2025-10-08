@@ -15,4 +15,8 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   resources :users
+
+  namespace :api do
+    resources :vaults
+  end
 end
