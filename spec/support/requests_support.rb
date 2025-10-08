@@ -12,6 +12,10 @@ module RequestsSupport
       json_body['data']
     end
 
+    def json_errors
+      json_body['errors']
+    end
+
     RSpec::Matchers.define :match_json_response do |expected|
       match do |actual|
         if actual.is_a?(Array)

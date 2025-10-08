@@ -13,10 +13,10 @@
 # Create admin user
 require 'factory_bot_rails'
 
-def create_user_environment
-  user = FactoryBot.create(:user, email: 'admin@example.com', role: 'admin')
+def create_user_environment(role: 'user')
+  user = FactoryBot.create(:user, role: role)
 
-  puts 'Admin user created'
+  puts "--- #{role.capitalize} user created ---"
   puts "Email: #{user.email}"
   puts "Password: #{user.password}"
 
@@ -39,6 +39,6 @@ def create_user_environment
   FactoryBot.create_list(:vault, 3, user: user)
 end
 
-2.times do |i|
-  create_user_environment("user_#{i + 1}")
+%w[user admin].each do |role|
+  create_user_environment(role: role)
 end
