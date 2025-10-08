@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateVaults < ActiveRecord::Migration[8.0]
   def change
     create_table :vaults do |t|

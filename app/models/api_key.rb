@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class ApiKey < ApplicationRecord
-  PERMISSION_LEVELS = %w[read write]
+  PERMISSION_LEVELS = %w[read write].freeze
   encrypts :key
 
   # ASSOCIATIONS
@@ -37,7 +39,7 @@ class ApiKey < ApplicationRecord
 
   PERMISSION_LEVELS.each do |level|
     define_method("#{level}?") do
-      self.permission_level == level
+      permission_level == level
     end
   end
 end

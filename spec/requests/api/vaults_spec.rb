@@ -23,14 +23,179 @@ RSpec.describe "Api::Vaults", type: :request do
       end
     end
 
-    context "when logged in with a read key" do
-      let(:api_key) { create(:api_key, :read, user: user) }
+    context "when logged in with a write key" do
+      let(:api_key) { create(:api_key, :write, user: user) }
       let!(:vault) { create(:vault, user: user) }
       let(:headers) { { 'Authorization' => "Bearer #{api_key.key}" } }
 
       it "returns a successful response" do
         index_request
         expect(response).to be_successful
+      end
+
+      it "returns the vaults" do
+        index_request
+        expect(json_data).to match_json_response(vault)
+      end
+    end
+  end
+
+  describe "GET /show" do
+    subject(:show_request) { get api_vault_path(vault), headers: }
+
+    let(:user) { create(:user) }
+    let(:api_key) { create(:api_key, user: user) }
+
+    context "when logged in with a read key" do
+      let(:api_key) { create(:api_key, :read, user: user) }
+      let(:vault) { create(:vault, user: user) }
+      let(:headers) { { 'Authorization' => "Bearer #{api_key.key}" } }
+
+      it "returns a successful response" do
+        show_request
+        expect(response).to be_successful
+      end
+
+      it "returns the vault" do
+        show_request
+        expect(json_data).to match_json_response(vault)
+      end
+    end
+
+    context "when logged in with a write key" do
+      let(:api_key) { create(:api_key, :write, user: user) }
+      let(:vault) { create(:vault, user: user) }
+      let(:headers) { { 'Authorization' => "Bearer #{api_key.key}" } }
+
+      it "returns a successful response" do
+        show_request
+        expect(response).to be_successful
+      end
+
+      it "returns the vault" do
+        show_request
+        expect(json_data).to match_json_response(vault)
+      end
+    end
+  end
+
+  describe "POST /create" do
+    subject(:create_request) { post api_vaults_path, params:, headers: }
+
+    let(:user) { create(:user) }
+    let(:api_key) { create(:api_key, user: user) }
+
+    context "when logged in with a write key" do
+      let(:api_key) { create(:api_key, :write, user: user) }
+      let(:headers) { { 'Authorization' => "Bearer #{api_key.key}" } }
+
+      context "with valid parameters" do
+        let(:params) do
+          {
+            vault: {
+              name: "Test Vault",
+              documents_attributes: [
+                {
+                  name: "Test Document",
+                  file: fixture_file_upload(Rails.root.join('spec/fixtures/files/test.txt'), 'text/plain')
+                }
+              ]
+            }
+          }
+        end
+
+        it "returns a successful response" do
+          create_request
+          expect(response).to be_successful
+        end
+
+        it "creates a vault" do
+          expect { create_request }.to change(Vault, :count).by(1)
+        end
+
+        it "creates the documents" do
+          expect { create_request }.to change(Document, :count).by(1)
+        end
+      end
+
+    end
+
+    context "when logged in with a read key" do
+      let(:api_key) { create(:api_key, :read, user: user) }
+      let(:headers) { { 'Authorization' => "Bearer #{api_key.key}" } }
+
+      let(:params) do
+        {
+          vault: {
+            name: "Test Vault"
+          }
+        }
+      end
+
+      it "returns a unauthorized response" do
+        create_request
+        expect(response).to be_unauthorized
+      end
+    end
+  end
+
+  describe "POST /update" do
+    subject(:update_request) { post api_vault_path(vault), params:, headers: }
+
+    let(:user) { create(:user) }
+    let(:api_key) { create(:api_key, user: user) }
+
+    context "when logged in with a write key" do
+      let(:api_key) { create(:api_key, :write, user: user) }
+      let(:headers) { { 'Authorization' => "Bearer #{api_key.key}" } }
+
+      context "with valid parameters" do
+        let(:vault) { create(:vault, user: user) }
+        let(:params) do
+          {
+            vault: {
+              name: "Test Vault",
+              documents_attributes: [
+                {
+                  name: "Test Document",
+                  file: fixture_file_upload(Rails.root.join('spec/fixtures/files/test.txt'), 'text/plain')
+                }
+              ]
+            }
+          }
+        end
+
+        it "returns a successful response" do
+          update_request
+          expect(response).to be_successful
+        end
+
+        it "creates a vault" do
+          expect { update_request }.not_to change(Vault, :count).by(1)
+        end
+
+        it "creates the documents" do
+          expect { update_request }.not_to change(Document, :count).by(1)
+        end
+      end
+
+    end
+
+    context "when logged in with a read key" do
+      let(:api_key) { create(:api_key, :read, user: user) }
+      let(:headers) { { 'Authorization' => "Bearer #{api_key.key}" } }
+
+      let(:params) do
+        {
+          vault: {
+            name: "Test Vault"
+          }
+        }
+      end
+
+      it "returns a unauthorized response" do
+        create_request
+        expect(response).to be_unauthorized
       end
     end
   end

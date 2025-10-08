@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class ApiKeysController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_api_key, only: %i[ show edit update destroy ]
+  before_action :set_api_key, only: %i[show edit update destroy]
 
   # GET /api_keys or /api_keys.json
   def index
@@ -8,8 +10,7 @@ class ApiKeysController < ApplicationController
   end
 
   # GET /api_keys/1 or /api_keys/1.json
-  def show
-  end
+  def show; end
 
   # GET /api_keys/new
   def new
@@ -17,8 +18,7 @@ class ApiKeysController < ApplicationController
   end
 
   # GET /api_keys/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /api_keys or /api_keys.json
   def create
@@ -39,7 +39,7 @@ class ApiKeysController < ApplicationController
   def update
     respond_to do |format|
       if @api_key.update(api_key_params)
-        format.html { redirect_to @api_key, notice: "Api key was successfully updated.", status: :see_other }
+        format.html { redirect_to @api_key, notice: 'Api key was successfully updated.', status: :see_other }
         format.json { render :show, status: :ok, location: @api_key }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -53,23 +53,24 @@ class ApiKeysController < ApplicationController
     @api_key.destroy!
 
     respond_to do |format|
-      format.html { redirect_to api_keys_path, notice: "Api key was successfully destroyed.", status: :see_other }
+      format.html { redirect_to api_keys_path, notice: 'Api key was successfully destroyed.', status: :see_other }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_api_key
-      @api_key =
-        ApiKey.where(user_id: current_user.id)
-              .find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def api_key_params
-      params.expect(api_key: [ :name, :key ]).tap do |params|
-        params[:user_id] = current_user.id
-      end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_api_key
+    @api_key =
+      ApiKey.where(user_id: current_user.id)
+            .find(params.expect(:id))
+  end
+
+  # Only allow a list of trusted parameters through.
+  def api_key_params
+    params.expect(api_key: %i[name key]).tap do |params|
+      params[:user_id] = current_user.id
     end
+  end
 end

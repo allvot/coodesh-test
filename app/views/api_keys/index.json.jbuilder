@@ -1,1 +1,3 @@
-json.array! @api_keys, partial: "api_keys/api_key", as: :api_key
+# frozen_string_literal: true
+
+json.array! @api_keys, partial: 'api_keys/api_key', as: :api_key
